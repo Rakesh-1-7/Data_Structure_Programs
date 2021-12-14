@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include <process.h>
+// #include <process.h>
 #define STACK_SIZE 5
 int push( int item, int s[], int *top)
 {
@@ -14,9 +14,11 @@ int push( int item, int s[], int *top)
   return 0;
 }
 
-int stack_compare(int x[], int y[])
+int stack_compare(int x[], int y[],int top1, int top2)
 {
   int i;
+  if(top1 != top2)
+  return 0;
   for(i = 0; x[i] != '\0' && y[i] != '\0'; i++)
   {
     if(x[i] != y[i])
@@ -29,7 +31,7 @@ int main()
 {
   int top1 = -1, top2 = -1;
   int item, s1[10], s2[10], choice;
-  clrscr();
+  // clrscr();
   for(;;)
   {
     int res;
@@ -49,7 +51,7 @@ int main()
 	push(item,s2,&top2);
 	break;
       case 3:
-      res = stack_compare(s1,s2);
+      res = stack_compare(s1,s2,top1,top2);
       if(res == 0)
 	printf("\nThe stacks are not equal\n");
       else
