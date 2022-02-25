@@ -1,0 +1,104 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node
+{
+    int info;
+    struct node *rlink;
+    struct node *llink;
+};
+typedef struct node *NODE;
+NODE getnode()
+{
+    NODE x;
+    x = (NODE)malloc(sizeof(struct node));
+    if (x == NULL)
+    {
+        printf("mem full\n");
+        exit(0);
+    }
+    return x;
+}
+void freenode(NODE x)
+{
+    free(x);
+}
+NODE insert(NODE root, int item)
+{
+    NODE temp, cur, prev;
+    temp = getnode();
+    temp->rlink = NULL;
+    temp->llink = NULL;
+    temp->info = item;
+    if (root == NULL)
+        return temp;
+    prev = NULL;
+    cur = root;
+    while (cur != NULL)
+    {
+        prev = cur;
+        cur = (item < cur->info) ? cur->llink : cur->rlink;
+    }
+    if (item < prev->info)
+        prev->llink = temp;
+    else
+        prev->rlink = temp;
+    return root;
+}
+
+void display(NODE root, int i)
+{
+    int j;
+    if (root != NULL)
+    {
+        display(root->rlink, i + 1);
+        for (j = 0; j < i; j++)
+            printf("  ");
+        printf("%d\n", root->info);
+        display(root->llink, i + 1);
+    }
+}
+void minimum(NODE root)
+{
+    NODE temp = getnode();
+    NODE prev = getnode();
+    temp = root;
+    while (temp != NULL)
+    { 
+        prev = temp;
+	    temp = temp->llink;
+    }
+    printf("\nThe minimum value is : %d\n",prev->info);
+}
+
+
+void main()
+{
+    int item, choice;
+    NODE root = NULL;
+    clrscr();
+    while(1)
+    {
+        printf("\n1.Insert\n2.Display\n3.Print Minimum\n4.Exit\n");
+        printf("Enter the choice : ");
+        scanf("%d", &choice);
+        switch (choice)
+        {
+        case 1:
+            printf("Enter the item : ");
+            scanf("%d", &item);
+            root = insert(root, item);
+            break;
+        case 2:
+            display(root, 0);
+            break;
+        case 3:
+            minimum(root);
+	    break;
+        default:
+            exit(0);
+        }
+    }
+}
+
+
